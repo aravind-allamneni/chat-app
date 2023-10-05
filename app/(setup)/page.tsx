@@ -1,27 +1,28 @@
 import { redirect } from "next/navigation";
 import { initialProfile } from "@/lib/initial-profile";
 import { db } from "@/lib/db";
+import { InitialModal } from "@/components/modals/initial-modal";
 
 
 const SetupPage = async () => {
-    const profile = await initialProfile();
+  // get the profile
+  const profile = await initialProfile();
 
-    const server = await db.server.findFirst({
-        where: {
-            members: {
-                some: {
-                    profileId: profile?.id
-                }
-            }
-        }
-    })
+  // get any server this user is a member of and redirect to that server page
+  const server = await db.server.findFirst({
+      where: {
+          members: {
+              some: {
+                  profileId: profile?.id
+              }
+          }
+      }
+  })
+  if(server){
+      return redirect(`/servers/${server.id}`)
+  }
 
-    if(server){
-        return redirect(`/servers/${server.id}`)
-    }
-
-  return (
-    <div>Create a Server</div>
-  )
+  // if the profile id is not a member of any servers prompt the user to create a server
+  return <InitialModal />
 }
 export default SetupPage;
