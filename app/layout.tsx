@@ -1,12 +1,16 @@
-import { ThemeProvider } from '@/components/providers/theme-provider'
-import './globals.css'
+import type { Metadata } from 'next';
+import { Open_Sans } from 'next/font/google';
 
-import { ClerkProvider } from '@clerk/nextjs'
-import type { Metadata } from 'next'
-import { Open_Sans } from 'next/font/google'
-import { cn } from '@/lib/utils'
+import { ClerkProvider } from '@clerk/nextjs';
 
-const font = Open_Sans({ subsets: ['latin'] })
+import { cn } from '@/lib/utils';
+
+import { ThemeProvider } from '@/components/providers/theme-provider';
+import { ModalProvider } from '@/components/providers/modal-provider';
+
+import './globals.css';
+
+const font = Open_Sans({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Chat App',
@@ -15,9 +19,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
@@ -29,6 +31,7 @@ export default function RootLayout({
             enableSystem={false}
             storageKey='chatapp-theme'
           >
+            <ModalProvider />
             {children}
           </ThemeProvider>
         </body>

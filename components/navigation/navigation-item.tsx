@@ -20,7 +20,7 @@ export const NavigationItem = (
   const router = useRouter();
 
   const handleServerClick = () => {
-    router.push(`/server/${id}`);
+    router.push(`/servers/${id}`);
   }
 
   return (
